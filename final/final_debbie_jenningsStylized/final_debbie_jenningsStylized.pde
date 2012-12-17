@@ -6,6 +6,11 @@ int val;
 float colorVal;
 float strokeW;
 float superVal;
+
+float angle;
+float radiusCircle = 500;
+float yposRadius = 0;
+
 float xpos = 0;
 float ypos = 0;
 float x, y;
@@ -32,10 +37,6 @@ void setup()
   xpos = -50; //move "cursor" off the screen until user turns knobs
   ypos = -50;
 
-  //img = loadImage("Polaroid_Frame_72.png");
-  //img2 = loadImage("Film_Frame_72.png");
-  //newImage(1);
-
   //initialize screen size variables
   x_offset = 0;
   picWidth = width;
@@ -45,14 +46,12 @@ void setup()
 
 void draw()
 { 
-  etch();
-  buttonSwitch();
-  println("yo holms, your super value is:" + superVal);
-}
-
-void buttonSwitch() {
+  //waves();
+  //etch();
+  //buttonSwitch();
   if (button != 1) {   
-    //background(255);
+    background(255);
+    superVal = 3;
     superVal = random(100);
     superVal = round(superVal);
     if (superVal < 10 && superVal > 2) {
@@ -96,19 +95,29 @@ void buttonSwitch() {
       strokeW = 36;
     }
     if (superVal < 2) {
-      fill(0, 102, 153);
-      text("word", 15, 60);
+      fill(255, 0, 0);
+      text("system faliure", 15, 60);
       colorVal = 255;
       background(0, 0, 200);
     }
 
     if (superVal > 100) superVal = 0;
   }
+
+  if (superVal > 33 && superVal < 65) etch();
+  if (superVal > 66 && superVal < 100) stars();
+  if (superVal > 0 && superVal < 32) wheels();
+
+  println("yo holms, your super value is:" + superVal);
+}
+
+void buttonSwitch() {
 }
 
 void etch() {
   strokeWeight(strokeW);
-  stroke(colorVal, colorVal, colorVal);
+  //stroke(colorVal, colorVal, colorVal);
+  stroke(random(0, colorVal), random(colorVal), random(colorVal));
   //rect(xpos, ypos, 2, 2);
   xpos = round(xpos);
   ypos = round(ypos);
@@ -116,6 +125,47 @@ void etch() {
   y = ypos;
   point(x, y);
 }
+
+void wheels() {
+  stroke(random(0, 255), random(255), random(255));
+  //stroke(255);
+  strokeWeight(5);
+  translate(width/2, height/2);
+  for (angle = 0; angle < 3*PI; angle += .1) {
+    x = cos(angle + xpos) * radiusCircle;
+    y = sin(angle + ypos) * radiusCircle;
+    point(x, y);
+  }
+}
+
+void stars() {
+  // Draw a circle with points
+  //background(0);
+  stroke(random(0, 255), random(255), random(255));
+  //stroke(255);
+  strokeWeight(1.5);
+  translate(width/2, height/2);
+  yposRadius = map(ypos, 0, 255, 0.0, 600.0);
+  //xpos = map(xpos, 0, 255, 0., 4.);
+  //poteValue = map(poteValue, 0, 255, 0, 4);
+  blendMode(SCREEN);
+
+  for (float angle = 0; angle < 2*PI; angle += .1) {
+    x = cos(angle + (xpos * 10)) * yposRadius;
+    y = sin(angle) * yposRadius;
+    point(x, y);
+  }
+}
+
+//void waves() {
+//  background(200);
+//  float a = 0.0;
+//  for (int i = 0; i < 25; i++) {
+//    fill(random(200, 250), random(200, 250), random(200, 250));
+//    line(i*16, (height/2), i*16, (height/2)+cos(a)*120.0);
+//    a = a + 283; // 283, 47, 95, 23, 190, 307, 73, 45, 25
+//  }
+//}
 
 void serialEvent( Serial serial) {
 
