@@ -1,8 +1,7 @@
 import processing.serial.*;
 Serial myPort;
 
-int poteValue = 0;
-int pote2Value = 0;
+int poteValue, pote2Value = 0;
 int lightValue = 0;
 int xpos = 0;
 int ypos = 0;
@@ -32,10 +31,10 @@ void draw(){
 // Draw a circle with points
 stroke(random(0,255), random(255), random(255));
 //stroke(255);
-strokeWeight(9);
+strokeWeight(1);
 translate(width/2, height/2);
 for (float angle = 0; angle < 2*PI; angle += .1) {
-  x = cos(angle + (xpos)) * radiusCircle;
+  x = cos(angle + xpos) * radiusCircle;
   y = sin(angle + ypos) * radiusCircle;
   point(x, y);
 }

@@ -4,16 +4,16 @@ Serial myPort;
 int poteValue = 0;
 int pote2Value = 0;
 int xpos = 0;
-int ypos = 0;
+float ypos = 0.;
 float lightValue = 0;
-float lightValueRadius = 0;
+float yposRadius = 0;
 
 float x, y;
 
 //float radiusCircle = lightValue;
 
 void setup() {  
-  size(1200, 700);
+  size(400, 400);
   background(0);
   smooth();
 
@@ -33,22 +33,22 @@ void setup() {
 
 void draw() {
   // Draw a circle with points
-  //background(0);
+  background(0);
   stroke(random(0, 255), random(255), random(255));
   //stroke(255);
   strokeWeight(2);
   translate(width/2, height/2);
-  lightValueRadius = map(lightValue, 500, 850, 0.0, 800.0);
+  yposRadius = map(ypos, 0, 255, 0.0, 300.0);
+  //xpos = map(xpos, 0, 255, 0., 4.);
   //poteValue = map(poteValue, 0, 255, 0, 4);
   blendMode(SCREEN);
 
   for (float angle = 0; angle < 2*PI; angle += .1) {
-    x = cos(angle + (xpos * 10)) * lightValueRadius;
-    y = sin(angle + (ypos +1)) * lightValueRadius;
+    x = cos(angle + (xpos * 10)) * yposRadius;
+    y = sin(angle) * yposRadius;
     point(x, y);
   }
 }
-
 
 void serialEvent( Serial myport) {
 
@@ -65,9 +65,9 @@ void serialEvent( Serial myport) {
     ypos = int(stringArray[1]);
     lightValue = float(stringArray[2]);
 
-    println("Potentiometer: " + poteValue);
-    println("Potentiometer-2: " + pote2Value);
-    println("Light Meter" + lightValue);
+    println("Potentiometer: " + xpos);
+    println("Potentiometer-2: " + ypos);
+    println("Light Meter" + yposRadius);
   }
 }
 
