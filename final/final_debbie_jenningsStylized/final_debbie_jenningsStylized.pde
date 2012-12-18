@@ -73,7 +73,7 @@ void draw()
     if (superVal < 50 && superVal > 40) {
       colorVal = 50;
       strokeW = 13;
-    }
+    } 
     if (superVal < 60 && superVal > 50) {
       colorVal = 75;
       strokeW = 15;
@@ -181,6 +181,13 @@ void serialEvent( Serial serial) {
 
     xpos = (xpos*(picWidth / 255.0)) + x_offset;
     ypos = (ypos*(picHeight / 255.0)) + y_offset;
+    
+   if (keyPressed) {
+    if (key == 'b' || key == 'B') {
+      saveFrame();
+      println("save frame");
+    }
+  }
 
     //newImage(picNum);
 
